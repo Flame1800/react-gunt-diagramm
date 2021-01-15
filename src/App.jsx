@@ -5,6 +5,8 @@ function App() {
 
   const [timeParts, setTimeParts] = React.useState([]);
   const [rows, setRows] = React.useState([]);
+  const [click, setClick] = React.useState(false);
+  const [block, setBlock] = React.useState(false);
 
   const timeGap = {
     startDay: {
@@ -51,6 +53,29 @@ function App() {
     setRows(rowsParttern);
   }
 
+  const switchClickMode = (mode) => (e) => {
+    if (mode) {
+      setBlock(false);
+      clearBlock();
+    }
+    e.preventDefault();
+    setClick(mode)
+  }
+
+  const clearBlock = () => {
+    const activeItems = document.querySelectorAll('.active');
+    activeItems.forEach(item => {
+      item.classList.remove('active');
+    })
+  }
+
+  const drawBlock = () => (e) => {
+    if (click) {
+      e.target.classList.add('active');
+    }
+    setBlock(true);
+  }
+
   return (
     <div className="App">
       <div className="head">
@@ -61,7 +86,7 @@ function App() {
         </div>
         <div className="date">14 янв. 2020</div>
       </div>
-      <div className="table">
+      <div className="table" onMouseDown={switchClickMode(true)}  onMouseUp={switchClickMode(false)}>
         <div className="row-head row">
           <div className="named-cell cell"></div>
           {timeParts.map(time => (
@@ -71,21 +96,26 @@ function App() {
           ))}
         </div>
         {rows.map(nameRow => (
-          <div className="row">
+          <div key={nameRow} className="row">
             <div className="cell named-cell">{nameRow}</div>
             {timeParts.map(time => {
               const minuteParts = [];
-              const minute = time.minute - 5;
+              let minute = time.minute - 5;
 
-              for (let i = 0; i < 30; i+5) {
-                const part = minute + i;
-                minuteParts.push(part);
+              for (let i = 0; i < 6; i++) {
+                minute = minute + 5;
+                minuteParts.push(minute);
               }
 
-              console.log(minuteParts);
-
               return (
-                <div key={time} className="cell empty-cell">
+                <div key={timeToString(time.hour, time.minute)} className="cell empty-cell">
+                  {minuteParts.map(part => {
+                    const currTime = timeToString(time.hour, part);
+                    return (<div
+                      key={currTime}
+                      onMouseMove={drawBlock()}
+                      className="minute-part">&nbsp;</div>)
+                  })}
                 </div>
               )
             })}

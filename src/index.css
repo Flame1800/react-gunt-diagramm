@@ -22,10 +22,9 @@ code {
 }
 
 .head {
-  width: 100%;
   display: flex;
-  justify-table: space-around;
-  padding: 20px;
+  justify-content: space-around;
+  padding: 10px 20px;
 }
 
 .head .switch-day {
@@ -46,6 +45,8 @@ code {
   width: 100%;
   display: flex;
   flex-direction: column;
+  min-width: 1075px;
+  border-bottom: 1px solid #000;
 }
 
 .cell {
@@ -53,11 +54,12 @@ code {
   justify-content: center;
   align-items: center;
   border-right: 1px solid rgb(97, 97, 97);
-  height: 40px;
+  height: 35px;
 }
 
 .empty-cell {
-  width: 50px;
+  width: 5% !important;
+  min-width: 42px;
 }
 
 .row {
@@ -65,18 +67,24 @@ code {
   display: flex;
 }
 
+
+.table .head-cell:nth-child(1) {
+  border-left: 1px solid #000;
+}
+
 .table .row-head .white-space {
+  margin-right: 10%;
   width: 100px;
   border-right: 1px solid rgb(97, 97, 97);
 }
 
 .table .row-head .cell {
-  max-width: 100px;
-  width: 50px;
-  padding: 0 10px;
-  font-size: 12px;
+  width: 5%;
+  font-size: 13px;
 }
 
 .table .row .named-cell {
-  width: 100px;
+  width: 8.4%;
+  font-size: 14px;
+  white-space: nowrap;
 }

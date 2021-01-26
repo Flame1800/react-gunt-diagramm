@@ -1,17 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <title>React App</title>
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="description" content="Web site created using create-react-app" />
+  <title>React App</title>
+</head>
+
+<body>
+  <div id="data-for-1c"></div>
+  <button id="data-for-react"></button>
+  <div id="root"></div>
+  <script>
+    const getData = (dataName, data) => {
+      const block1C = document.querySelector('#data-for-react')
+      block1C.dataset[dataName] = data
+      block1C.click()
+    }
+
+    window.onload = () => {
+      const rowsParttern = []
+
+      for (let i = 0; i < 20; i++) {
+        const name = i === 0 ? 'ВЪЕЗД' : `1c №${i}`
+        rowsParttern.push(name)
+      }
+
+      const posts = JSON.stringify(rowsParttern)
+      // getData('posts', posts)
+    }
+  </script>
+</body>
 </html>

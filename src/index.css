@@ -41,20 +41,88 @@ code {
 }
 
 .table {
+  position: relative;
+  z-index: 10;
   width: 100%;
+  height: 88vh;
   display: flex;
   flex-direction: column;
-  min-width: 1075px;
-  border-bottom: 1px solid #000;
+  min-width: 790px;
+  border-bottom: 1px solid rgb(194, 194, 194);
+  border-top: 1px solid rgb(194, 194, 194);
+}
+
+.red-line {
+  width: 2px;
+  background: red;
+  height: inherit;
+  pointer-events: none;
+  top: 0;
+  position: absolute;
+}
+
+.curr-block {
+  z-index: 99999;
+  position: absolute;
+  height: 35px;
+  border-radius: 5px;
+  border: 2px dashed rgb(2 109 241);
+  background: rgb(0 121 255 / 77%);
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.active-block {
+  border: none;
+}
+
+.active-block .curr-time {
+  opacity: 0.6;
+  transition: 0.3s;
+}
+
+.active-block:hover {
+  background: rgba(49, 145, 255, 0.77);
+  border: 2px solid rgb(2 109 241);
+
+}
+
+.active-block:hover .curr-time {
+  opacity: 1;
+}
+
+
+.curr-block .curr-time {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  color: #1c1c1c;
+  font-weight: 500;
+  padding: 1px 5px;
+  background: #fff;
+  border-radius: 7px;
+  border: solid 1px #454545;
+  margin-bottom: 3px;
+  min-width: 90px;
+  width: fit-content;
+}
+
+.curr-block:hover .curr-time .btn-delete {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  background-image: url('./img/remove-icon.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  margin-left: 5px;
 }
 
 .cell {
   display: flex;
   justify-content: center;
   align-items: center;
-  border-right: 1px solid rgb(97, 97, 97);
-  height: 35px;
-  cursor: pointer;
+  border-right: 1px solid rgb(209, 209, 209);
+  min-height: 27px;
 }
 
 .row .active {
@@ -66,15 +134,16 @@ code {
 .minute-part {
   width: 100%;
   height: 100%;
+  /* border-left: 1px solid #000; */
 }
 
 .empty-cell {
   width: 5% !important;
-  min-width: 42px;
+  min-width: 30px;
 }
 
 .row {
-  border-top: 1px solid rgb(97, 97, 97);
+  border-bottom: 1px solid rgb(199, 199, 199);
   display: flex;
 }
 
@@ -91,11 +160,16 @@ code {
 
 .table .row-head .cell {
   width: 5%;
-  font-size: 13px;
+  font-size: 12px;
+  position: relative;
+  z-index: 20;
+  background: #fff;
 }
 
 .table .row .named-cell {
   width: 8.4%;
-  font-size: 14px;
+  min-width: 60px;
+  font-size: 12px;
   white-space: nowrap;
+  text-align: right;
 }

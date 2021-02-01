@@ -6,6 +6,9 @@ import orders from './handlers/Orders'
 import timeParts from './handlers/timeParts'
 import click from './handlers//click'
 import timeNow from './handlers/timeNow'
+import timeCoords from './handlers/timeCoords'
+import rowCoords from './handlers/rowCoords'
+import rows from './handlers/rows'
 
 export default combineReducers({
     activePartsTable,
@@ -13,5 +16,8 @@ export default combineReducers({
     orders,
     timeParts,
     click,
-    timeNow
+    timeNow,
+    timeCoords,
+    rows,
+    rowCoords
 })

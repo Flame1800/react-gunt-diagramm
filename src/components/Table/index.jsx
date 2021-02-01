@@ -5,6 +5,7 @@ import * as actions from "../../actions/index.js";
 import CurrOrder from './CurrOrder'
 import Order from './Order'
 import Row from './Parts/Row'
+import Cell from './Parts/Cell'
 import timeToString from '../../functions/timeToString'
 import getCurrTime from '../../functions/getCurrTime'
 
@@ -12,23 +13,31 @@ const mapPropsToState = (state) => {
     return {
         timeParts: state.timeParts,
         currOrder: state.currOrder,
-        click: state.click,
-        orders: state.orders
+        orders: state.orders,
+        rows: state.rows,
+        rowCoords: state.rowCoords,
+        timeCoords: state.timeCoords,
     }
 }
 
 const actionCreators = {
-    setCurrOrder: actions.setCurrOrder,
     setTimeParts: actions.setTimeParts,
-    setClick: actions.setClick,
-    setOrders: actions.setOrders,
-    setTimeNow: actions.setTimeNow
+    setTimeNow: actions.setTimeNow,
+    setRows: actions.setRows
 };
 
 function Table(props) {
-    const [rows, setRows] = React.useState([])
 
-    const { currOrder, timeParts, click, setClick, orders, setOrders, setTimeNow } = props
+    console.log('rerender')
+
+    const {
+        currOrder,
+        timeParts,
+        orders,
+        setTimeNow,
+        setRows,
+        rows,
+    } = props
     const timeGap = {
         startDay: {
             hours: 8,
@@ -40,28 +49,23 @@ function Table(props) {
         }
     };
 
-    
+
     React.useEffect(() => {
         maketimeParts(timeGap.startDay.hours, timeGap.startDay.minute)
         makeRows()
         getTime()
-
-        const dataFrom1C = document.getElementById('data-for-react')
-
-        dataFrom1C.addEventListener('click', () => {
-            if (dataFrom1C.dataset.posts) {
-                makeRows(dataFrom1C.dataset.posts)
-            }
-        })
-
     }, [])
+
+    const dataFrom1C = document.getElementById('data-for-react')
+    dataFrom1C.addEventListener('click', () => {
+        if (dataFrom1C.dataset.posts) {
+            makeRows(dataFrom1C.dataset.posts)
+        }
+    })
 
     const getTime = () => {
         setTimeNow(getCurrTime())
-
-        setTimeout(() => {
-            getTime()
-        }, 300000)
+        setTimeout(getTime, 300000)
     }
 
     const maketimeParts = (hour, minute, acc = []) => {
@@ -96,53 +100,12 @@ function Table(props) {
         }
     }
 
-
-
-    const saveOrder = () => {
-        setClick(false)
-
-        if (currOrder !== null) {
-            const currBlock = document.querySelector('.curr-block')
-            const width = currBlock.style.width
-
-            if (Number(width.substr(0, width.length - 2)) < 10) {
-                props.setCurrOrder(null)
-                return;
-            }
-            const order = { ...currOrder, id: Math.random() }
-            order.style = {
-                ...currOrder.style,
-                width,
-                pointerEvents: 'auto'
-            }
-
-            setOrders(order)
-            const block1C = document.getElementById('data-for-1c')
-            block1C.dataset.location = currOrder.location
-            block1C.dataset.time = JSON.stringify(currOrder.time)
-            props.setCurrOrder(null)
-        }
-    }
-
-    const deleteOrder = (item) => (e) => {
-        e.preventDefault()
-        const newOrders = orders.filter(order => order.id !== item.id)
-        setOrders(newOrders)
-    }
-
-    const drawBlock = () => (e) => {
-        if (click) {
-            const currBlock = document.querySelector('.curr-block')
-            currBlock.style.width = (currOrder.style.left - e.pageX) * -1 + "px"
-        }
-    }
-
     return (
-        <div className="table" onMouseMove={drawBlock()} onMouseUp={() => saveOrder()}>
+        <div className="table">
             {currOrder !== null &&
                 <CurrOrder currOrder={currOrder} />}
             {orders.length > 0 && orders.map(item =>
-                <Order deleteOrder={deleteOrder} item={item} />)}
+                <Order item={item} />)}
 
             <div className="row-head row">
                 <div className="named-cell cell"></div>
@@ -154,7 +117,14 @@ function Table(props) {
                     )
                 })}
             </div>
-            {rows.map((row, i) => (<Row key={Math.random()} row={row} i={i} />))}
+            {rows.map((row, i) => {
+                return (<Row key={Math.random()} row={row} i={i} />)
+            })}
+            <div className="row-head row-coords row">
+                <div className="named-cell cell"></div>
+                {timeParts.map(time => <Cell
+                    key={Math.random()} time={time} mode='coords' />)}
+            </div>
         </div>
     )
 }

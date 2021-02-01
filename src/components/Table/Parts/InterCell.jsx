@@ -10,7 +10,8 @@ const mapPropsToState = (state) => {
         activeCell: state.activePartsTable.cell,
         activeRow: state.activePartsTable.row,
         click: state.click,
-        timeNow: state.timeNow
+        timeNow: state.timeNow,
+        timeCoords: state.timeCoords
     }
 }
 
@@ -19,19 +20,37 @@ const actionCreators = {
     setTimeParts: actions.setTimeParts,
     setClick: actions.setClick,
     setActiveCell: actions.setActiveCell,
+    setOrders: actions.setOrders,
+
 };
 
 
 function InterCell(props) {
-    const { minPart, i, currOrder, setCurrOrder, click, setClick, time, row, timeNow } = props
+    const { minPart, i, currOrder, setOrders, setCurrOrder, click, setClick, time, row, timeNow, timeCoords } = props
 
-    const setEndTime = ({ currTime }) => (e) => {
-        if (currOrder !== null && click) {
-            setCurrOrder({
-                ...currOrder,
-                time: { ...currOrder.time, end: currTime },
-                duration: getDuration(currOrder.time.start, currTime)
-            })
+    const saveOrder = () => (e) => {
+        setClick(false)
+
+        if (currOrder !== null) {
+            const currBlock = document.querySelector('.curr-block')
+            const width = currBlock.style.width
+
+            if (Number(width.substr(0, width.length - 2)) < 10) {
+                props.setCurrOrder(null)
+                return;
+            }
+            const order = { ...currOrder, id: Math.random() }
+            order.style = {
+                ...currOrder.style,
+                width,
+                pointerEvents: 'auto'
+            }
+
+            setOrders(order)
+            const block1C = document.getElementById('data-for-1c')
+            block1C.dataset.location = currOrder.location
+            block1C.dataset.time = JSON.stringify(currOrder.time)
+            props.setCurrOrder(null)
         }
     }
 
@@ -53,23 +72,59 @@ function InterCell(props) {
                 pointerEvents: 'none',
             }
 
+            console.log(timeCoords)
+            // setCurrOrder({
+            //     time: {
+            //         start: time,
+            //         end: time
+            //     },
+            //     location: nameRow,
+            //     style,
+            // })
+        }
+    }
+
+    const drawBlock = () => (e) => {
+        // if (click) {
+        //     setEndTime({ currTime: { hour: time.hour, minute: minPart } })
+        //     const currBlock = document.querySelector('.curr-block')
+        //     currBlock.style.width = (currOrder.style.left - e.pageX) * -1 + "px"
+        // }
+    }
+
+    const setEndTime = ({ currTime }) => {
+        if (currOrder !== null) {
             setCurrOrder({
-                time: {
-                    start: time,
-                    end: time
-                },
-                location: nameRow,
-                style,
+                ...currOrder,
+                time: { ...currOrder.time, end: currTime },
+                duration: getDuration(currOrder.time.start, currTime)
             })
         }
+    }
+
+    const cellRef = React.useRef(null)
+
+    if (props.mode === 'coords') {
+        const timeCoords = { hour: time.hour, minute: minPart }
+        props.setCoords({ coords: cellRef })
+
+        return (
+            <>
+                <div
+                    time={timeCoords}
+                    ref={cellRef}
+                    className="minute-part">
+                </div>
+            </>
+        )
     }
 
     return (
         <>
             <div
-                key={Math.random()}
                 onMouseDown={createBlock({ time: { hour: time.hour, minute: minPart }, nameRow: row.name })}
-                onMouseMove={setEndTime({ currTime: { hour: time.hour, minute: minPart } })}
+                onMouseUp={saveOrder()}
+                onMouseMove={drawBlock()}
                 className="minute-part">
 
                 {timeNow.hour === time.hour

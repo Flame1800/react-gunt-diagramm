@@ -134,7 +134,7 @@ code {
 .minute-part {
   width: 100%;
   height: 100%;
-  /* border-left: 1px solid #000; */
+  border-left: 1px solid #000;
 }
 
 .empty-cell {

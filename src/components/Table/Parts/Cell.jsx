@@ -12,7 +12,8 @@ const mapPropsToState = (state) => {
         activeCell: state.activePartsTable.cell,
         activeRow: state.activePartsTable.row,
         click: state.click,
-        timeNow: state.timeNow
+        timeNow: state.timeNow,
+        tableState: state.tableState
     }
 }
 
@@ -25,7 +26,7 @@ const actionCreators = {
 
 
 function Cell(props) {
-    const { time, activeCell, activeRow, setActiveCell, row, i, timeNow } = props
+    const { time, activeCell, activeRow, setActiveCell, row, i, timeNow, tableState } = props
     const cellTime = timeToString(time.hour, time.minute)
 
     const minuteParts = []
@@ -39,16 +40,16 @@ function Cell(props) {
 
     if (props.mode === 'coords') {
         return (
-            <div key={Math.random()} className="cell empty-cell">
+            <div key={timeToString(cellTime)} className="cell empty-cell">
                 {minuteParts.map(part => <CoordsCell minPart={part} time={time} />)}
             </div>
         )
     }
-    if (((activeCell === cellTime && activeRow === row.name) && (timeNow.hour <= time.hour))
+    if (((activeCell === cellTime && activeRow === row.name) && (timeNow.hour <= time.hour)
+        && tableState === 'active')
         || (timeNow.hour === time.hour && i === 0)) {
-            console.log('inter-cell')
         return (
-            <div key={Math.random()} className="cell empty-cell">
+            <div key={timeToString(cellTime)} className="cell empty-cell">
                 {minuteParts.map(part => <InterCell i={i} minPart={part} time={time} row={row} />)}
             </div>
         )
@@ -57,8 +58,7 @@ function Cell(props) {
             <div
                 key={Math.random()}
                 className="cell empty-cell"
-                onMouseMove={() => setActiveCell(cellTime)}
-                >
+                onMouseMove={() => setActiveCell(cellTime)}>
             </div>
         )
     }

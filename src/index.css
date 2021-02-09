@@ -28,28 +28,42 @@ code {
 
 .head .switch-day {
   display: flex;
-  color: rgb(34, 130, 255)
+  align-items: center;
+  color: rgb(0, 0, 0)
 }
 
 .head .switch-day .curr-value {
-  margin-right: 40px;
+  margin: 0 15px;
 }
 
 .head .switch-day .switch-btn {
-  margin: 0 20px;
   cursor: pointer;
+  background-image: url('../src/img/next.png');
+  width: 20px;
+  height: 20px;
+  background-repeat: no-repeat;
+  background-size: contain;
 }
+
+.head .switch-day .prev {
+  transform: rotate(-180deg);
+}
+
 
 .table {
   position: relative;
   z-index: 10;
   width: 100%;
-  height: 88vh;
   display: flex;
   flex-direction: column;
   min-width: 790px;
   border-bottom: 1px solid rgb(194, 194, 194);
   border-top: 1px solid rgb(194, 194, 194);
+}
+
+.active-table {
+  border: 3px dashed rgba(6, 48, 161, 0.521);
+  background: #cbd7ef40;
 }
 
 .red-line {
@@ -77,16 +91,8 @@ code {
 }
 
 .active-block .curr-time {
-  opacity: 0.6;
   transition: 0.3s;
 }
-
-.active-block:hover {
-  background: rgba(49, 145, 255, 0.77);
-  border: 2px solid rgb(2 109 241);
-
-}
-
 .active-block:hover .curr-time {
   opacity: 1;
 }
@@ -101,10 +107,27 @@ code {
   padding: 1px 5px;
   background: #fff;
   border-radius: 7px;
-  border: solid 1px #454545;
+  border: solid 1px #757575;
   margin-bottom: 3px;
   min-width: 90px;
   width: fit-content;
+}
+
+.curr-block .curr-time .value {
+  margin-right: 5px;
+  display: none;
+}
+
+.working-state {
+  background: rgba(255, 166, 0, 0.623);
+}
+
+.pass-state {
+  background: rgba(3, 168, 11, 0.856);
+}
+
+.curr-block:hover .curr-time .value {
+  display: block;
 }
 
 .curr-block:hover .curr-time .btn-delete {
@@ -117,12 +140,22 @@ code {
   margin-left: 5px;
 }
 
+.curr-block:hover .curr-time .btn-accept {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  background-image: url('./img/acept-icon.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  margin-left: 5px;
+}
+
 .cell {
   display: flex;
   justify-content: center;
   align-items: center;
   border-right: 1px solid rgb(209, 209, 209);
-  min-height: 27px;
+  min-height: 24px;
 }
 
 .row .active {
@@ -134,7 +167,7 @@ code {
 .minute-part {
   width: 100%;
   height: 100%;
-  border-left: 1px solid #000;
+  /* border-left: 1px solid #000; */
 }
 
 .empty-cell {
@@ -158,6 +191,13 @@ code {
   border-right: 1px solid rgb(97, 97, 97);
 }
 
+.table .row-coords {
+  opacity: 0;
+  pointer-events: none;
+  top: 0;
+  height: 1px;
+}
+
 .table .row-head .cell {
   width: 5%;
   font-size: 12px;
@@ -173,3 +213,5 @@ code {
   white-space: nowrap;
   text-align: right;
 }
+
+

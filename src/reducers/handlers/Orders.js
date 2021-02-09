@@ -9,6 +9,9 @@ export default handleActions(
         [actions.deleteOrder](state, { payload: order }) {
             const newOrders = state.filter(item => item.id !== order.id)
             return newOrders
+        },
+        [actions.clearOrders]() {
+            return []
         }
     },
     []

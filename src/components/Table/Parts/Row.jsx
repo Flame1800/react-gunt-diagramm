@@ -18,23 +18,24 @@ const mapPropsToState = (state) => {
 }
 
 function Row(props) {
-    const { row, setActiveRow, timeParts, setCoordsRow, i } = props
+    const { row, setActiveRow, timeParts, setCoordsRow, rowCoords, i } = props
 
     const rowRef = React.useRef(null)
-    // const setCoords = () => (e) => {
-    //     setCoordsRow({
-    //         id: row.id,
-    //         coords: rowRef.current.offsetTop
-    //     })
-    // }
-    // React.useEffect(setCoords(), [])
+    const setCoords = () => (e) => {
+        if (rowCoords <= 0) {
+            setCoordsRow({
+                id: row.id,
+                coords: rowRef.current.offsetTop
+            })
+        }
+    }
+    React.useEffect(setCoords(), [])
 
     return (
         <div key={row.id}
             ref={rowRef}
             onMouseMove={() => setActiveRow(row.name)}
             className="row">
-
             <div className="cell named-cell">{row.name}</div>
             {timeParts.map(time => <Cell
                 key={Math.random()} time={time} row={row} i={i} />)}

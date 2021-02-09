@@ -1,0 +1,110 @@
+.cars-block {
+    display: flex;
+  }
+  
+  .cars:first-child {
+    border-right: 1px solid gray;
+  }
+  
+  .cars {
+    width: 50%;
+  }
+  
+  .cars .head-cars {
+    display: flex;
+    border-bottom: 1px solid gray;
+    padding: 10px;
+  }
+  
+  .cars .head-cars .title {
+    font-size: 18px;
+    color: rgb(31, 83, 146);
+    font-weight: 500;
+  }
+  
+  .cars .items {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+  
+  .cars .items .item {
+    display: flex;
+    position: relative;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px;
+    padding: 13px;
+    border-radius: 10px;
+    transition: 0.2s;
+    cursor: pointer;
+  }
+
+  .cars .items .item:hover {
+    background: rgba(29, 134, 255, 0.562);
+  }
+  
+  .cars .item .name {
+    text-align: center;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
+  .cars .item .number {
+    width: 103px;
+    height: 25px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    background: #fff;
+    padding: 0 2px;
+    border: 2px solid black;
+    font-weight: 600;
+    border-radius: 5px;
+    font-size: 17px;
+  }
+  
+  .cars .item .number .nums {
+    font-weight: 500;
+    margin-top: 5px;
+    font-size: 19px;
+  }
+  
+  .cars .item .number .region {
+    height: 100%;
+    padding-left: 2px;
+    margin-left: 3px;
+    border-left: 2px solid #000;
+  }
+  
+  .cars .item .number .region .value {
+    margin-top: -2px;
+    font-size: 15px;
+  }
+  
+  .cars .item .number .region .country {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .cars .item .number .region .country .value {
+    font-size: 10px;
+    margin-top: -7px;
+  }
+  
+  .cars .item .number .region .country .img {
+    background-image: url('../img/russia.png');
+    margin-top: -4px;
+    margin-left: 2px;
+    width: 10px;
+    height: 10px;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+  
+  .cars .item:hover .content {
+    display: block;
+  }

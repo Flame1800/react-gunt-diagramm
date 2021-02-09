@@ -11,7 +11,7 @@ const mapPropsToState = (state) => {
         activeRow: state.activePartsTable.row,
         click: state.click,
         timeNow: state.timeNow,
-        timeCoords: state.timeCoords
+        currDay: state.currDay
     }
 }
 
@@ -26,7 +26,7 @@ const actionCreators = {
 
 
 function InterCell(props) {
-    const { minPart, i, currOrder, setOrders, setCurrOrder, click, setClick, time, row, timeNow, timeCoords } = props
+    const { minPart, currDay, i, currOrder, setOrders, setCurrOrder, click, setClick, time, row, timeNow } = props
 
     const saveOrder = () => (e) => {
         setClick(false)
@@ -46,11 +46,11 @@ function InterCell(props) {
                 pointerEvents: 'auto'
             }
 
-            setOrders(order)
-            const block1C = document.getElementById('data-for-1c')
-            block1C.dataset.location = currOrder.location
-            block1C.dataset.time = JSON.stringify(currOrder.time)
-            props.setCurrOrder(null)
+            // setOrders(order)
+            // const block1C = document.getElementById('data-for-1c')
+            // block1C.dataset.location = currOrder.location
+            // block1C.dataset.time = JSON.stringify(currOrder.time)
+            // props.setCurrOrder(null)
         }
     }
 
@@ -72,24 +72,26 @@ function InterCell(props) {
                 pointerEvents: 'none',
             }
 
-            console.log(timeCoords)
-            // setCurrOrder({
-            //     time: {
-            //         start: time,
-            //         end: time
-            //     },
-            //     location: nameRow,
-            //     style,
-            // })
+           const orderDate = new Date(currDay)
+            
+            setCurrOrder({
+                time: {
+                    start: time,
+                    end: time
+                },
+                location: nameRow,
+                date: orderDate,
+                style,
+            })
         }
     }
 
     const drawBlock = () => (e) => {
-        // if (click) {
-        //     setEndTime({ currTime: { hour: time.hour, minute: minPart } })
-        //     const currBlock = document.querySelector('.curr-block')
-        //     currBlock.style.width = (currOrder.style.left - e.pageX) * -1 + "px"
-        // }
+        if (click) {
+            setEndTime({ currTime: { hour: time.hour, minute: minPart } })
+            const currBlock = document.querySelector('.curr-block')
+            currBlock.style.width = (currOrder.style.left - e.pageX) * -1 + "px"
+        }
     }
 
     const setEndTime = ({ currTime }) => {

@@ -12,7 +12,6 @@ import Orders from './Orders'
 const mapPropsToState = (state) => {
     return {
         timeParts: state.timeParts,
-        currOrder: state.currOrder,
         rows: state.rows,
         rowCoords: state.rowCoords,
         tableState: state.tableState
@@ -28,7 +27,6 @@ const actionCreators = {
 
 function Table(props) {
     const {
-        currOrder,
         timeParts,
         setTimeNow,
         setRows,
@@ -63,9 +61,6 @@ function Table(props) {
         setTimeNow(getCurrTime())
         setTimeout(getTime, 300000)
     }
-
-    // Перезагрузка страницы при изменении размера окна, для адаптивности блоков с заказами
-    // window.addEventListener('resize', () => window.location.reload())
 
     const maketimeParts = (hour, minute, acc = []) => {
         if (hour === timeGap.endDay.hours && minute === timeGap.endDay.minute) {

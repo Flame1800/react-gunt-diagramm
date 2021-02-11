@@ -7,17 +7,19 @@ import serverSideCars from '../mockData/cars'
 const mapPropsToState = (state) => {
     return {
         currDay: state.currDay,
-        cars: state.cars
+        cars: state.cars,
+        tableState: state.tableState
     }
 }
 
 const actionCreators = {
     setCar: actions.setCar,
-    setTableState: actions.setTableState
+    setTableState: actions.setTableState,
+    changeStateCar: actions.changeStateCar,
 };
 
 function Cars(props) {
-    const { cars, setCar, setTableState } = props
+    const { setCar, setTableState, changeStateCar, tableState } = props;
 
     const loadCars = (cars = serverSideCars) => cars.forEach(car => setCar(car))
 
@@ -32,12 +34,14 @@ function Cars(props) {
 
     const createOrder = (car) => (e) => {
         e.preventDefault()
-        setTableState('active')
+        if (tableState === 'passive') {
+            changeStateCar({ id: car.id, mode: 'process' })
+            setTableState('active')
+        }
     }
 
     const renderCarsCard = (mode) => {
-
-        const currCars = cars.filter(car => car.state === mode)
+        const currCars = props.cars.filter(car => car.state === mode)
 
         return (
             <div className="cars">
@@ -48,10 +52,9 @@ function Cars(props) {
                 </div>
                 <div className="items">
                     {currCars.map(car => {
-
                         return (
                             <div className="item"
-                            onClick={createOrder(car)}
+                                onClick={createOrder(car)}
                             >
                                 <div className="number">
                                     <div className="nums">{car.number.value}</div>

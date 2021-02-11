@@ -27,3 +27,4 @@ export const clearOrders = createAction('CLEAR_ORDERS')
 
 // Car
 export const setCar = createAction('SET_CAR')
+export const changeStateCar = createAction('CHANGE_STATE_CAR')

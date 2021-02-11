@@ -2,142 +2,142 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8" />
-  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#000000" />
-  <meta name="description" content="Web site created using create-react-app" />
-  <title>No-Gunt Diagramm</title>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="Web site created using create-react-app" />
+    <title>No-Gunt Diagramm</title>
 </head>
 
 <body>
-  <button id="data-for-react" style='display: none;'></button>
-  <button id="data-for-1c" style='display: none;'></button>
-  <div id="root"></div>
-  <script>
-    // Fake Server
-    // Description:
-    // 
-    // получение данных через dataset.name, где name это название сущности или действия самого api
+    <button id="data-for-react" style='display: none;'></button>
+    <button id="data-for-1c" style='display: none;'></button>
+    <div id="root"></div>
+    <script>
+        // Fake Server
+        // Description:
+        // 
+        // получение данных через dataset.name, где name это название сущности или действия самого api
 
-    // Server Functuions
+        // Server Functuions
 
 
-    // ************** Данные для React *****************
-    const pushData = (dataName, data) => {
-      const block1C = document.querySelector('#data-for-react')
-      block1C.dataset[dataName] = JSON.stringify(data)
-      block1C.click()
-    }
-    // *************** Данные для 1C *******************
-    const getData = (dataName, data) => {
-      const blockReact = document.querySelector('#data-for-1c')
-      blockReact.dataset[dataName] = JSON.stringify(data)
-      blockReact.click()
-    }
+        // ************** Данные для React *****************
+        const pushData = (dataName, data) => {
+            const block1C = document.querySelector('#data-for-react')
+            block1C.dataset[dataName] = JSON.stringify(data)
+            block1C.click()
+        }
 
-    // Server API
-    const api = {
-      pushLocations: (locations) => pushData('locations', locations),
-      pushCars: (cars) => pushData('cars', cars),
-      pushOrders: (orders) => pushData('orders', orders),
-      getCars: (cars) => getData('cars', cars),
-      getOrders: (orders) => getOrders('orders', orders),
-      createOrder: (order) => pushData('create-order', order),
-      changeStateCar: (state, carId) => pushData('change-state-car', { state, carId }),
-    }
+        // *************** Данные для 1C *******************
+        const getData = (dataName, data) => {
+            const blockReact = document.querySelector('#data-for-1c')
+            blockReact.dataset[dataName] = JSON.stringify(data)
+            blockReact.click()
+        }
 
-    const locations = [];
+        // Server API
+        const api = {
+            pushLocations: (locations) => pushData('locations', locations),
+            pushCars: (cars) => pushData('cars', cars),
+            pushOrders: (orders) => pushData('orders', orders),
+            getCars: (cars) => getData('cars', cars),
+            getOrders: (orders) => getOrders('orders', orders),
+            createOrder: (order) => pushData('create-order', order),
+            changeStateCar: (carId) => pushData('change-state-car', carId)
+        }
 
-    for (let i = 0; i < 20; i++) {
-      const name = i === 0 ? 'ВЪЕЗД' : `№${i}`
-      const row = {
-        id: i,
-        name
-      }
-      locations.push(row)
-    }
+        const locations = [];
 
-    const cars = [
-      {
-        model: "Audi A8",
-        description: "Замена колеса",
-        number: {
-          value: "А596КА",
-          region: 186
-        },
-        date: new Date(),
-        state: "queue"
-      },
-      {
-        model: "Lada Priora",
-        description: "Покраска бампера",
-        number: {
-          value: "МИ564Т",
-          region: 186
-        },
-        date: new Date(),
-        state: "queue"
-      },
-    ]
+        for (let i = 0; i < 20; i++) {
+            const name = i === 0 ? 'ВЪЕЗД' : `№${i}`
+            const row = {
+                id: i,
+                name
+            }
+            locations.push(row)
+        }
 
-    const orders = [
-      {
-        time: {
-          start: {
-            hour: 14,
-            minute: 0
-          },
-          end: {
-            hour: 19,
-            minute: 0
-          }
-        },
-        location: {
-          id: 10
-        },
-        date: new Date()
-      },
-      {
-        time: {
-          start: {
-            hour: 10,
-            minute: 30
-          },
-          end: {
-            hour: 14,
-            minute: 35
-          }
-        },
-        location: {
-          id: 5
-        },
-        date: new Date()
-      },
-      {
-        time: {
-          start: {
-            hour: 8,
-            minute: 30
-          },
-          end: {
-            hour: 10,
-            minute: 55
-          }
-        },
-        location: {
-          id: 1
-        },
-        date: new Date()
-      }
-    ]
+        const cars = [{
+            id: 1,
+            model: "Audi A8",
+            description: "Замена колеса",
+            number: {
+                value: "А596КА",
+                region: 186
+            },
+            date: new Date(),
+            state: "queue"
+        }, {
+            id: 2,
+            model: "Lada Priora",
+            description: "Покраска бампера",
+            number: {
+                value: "МИ564Т",
+                region: 186
+            },
+            date: new Date(),
+            state: "queue"
+        }, ]
 
-    window.onload = () => {
-      api.pushLocations(locations)
-      api.pushOrders(orders)
-      api.pushCars(cars)
-    }
-  </script>
+        const orders = [{
+            carModel: 'Toyota Corola',
+            time: {
+                start: {
+                    hour: 14,
+                    minute: 0
+                },
+                end: {
+                    hour: 19,
+                    minute: 0
+                }
+            },
+            location: {
+                id: 10
+            },
+            date: new Date()
+        }, {
+            carModel: 'Hundai Solaris',
+            time: {
+                start: {
+                    hour: 10,
+                    minute: 30
+                },
+                end: {
+                    hour: 14,
+                    minute: 35
+                }
+            },
+            location: {
+                id: 5
+            },
+            date: new Date()
+        }, {
+            carModel: 'BMW X5',
+            time: {
+                start: {
+                    hour: 8,
+                    minute: 30
+                },
+                end: {
+                    hour: 10,
+                    minute: 55
+                }
+            },
+            location: {
+                id: 1
+            },
+            date: new Date()
+        }]
+
+        // window.onload = () => {
+        //     console.log(process.env.NODE_ENV)
+        //     api.pushLocations(locations)
+        //     api.pushOrders(orders)
+        //     api.pushCars(cars)
+        // }
+    </script>
 </body>
 
 </html>
